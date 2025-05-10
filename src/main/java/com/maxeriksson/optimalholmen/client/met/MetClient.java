@@ -1,6 +1,6 @@
 package com.maxeriksson.optimalholmen.client.met;
 
-import com.maxeriksson.optimalholmen.client.met.model.Met;
+import com.maxeriksson.optimalholmen.client.met.model.MetApiResponse;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,7 +17,7 @@ public class MetClient {
         webClient = WebClient.create(baseUrl);
     }
 
-    public Mono<Met> getForecast(double longitude, double latitude) {
+    public Mono<MetApiResponse> getForecast(double longitude, double latitude) {
         return webClient
                 .get()
                 .uri(
@@ -27,6 +27,6 @@ public class MetClient {
                                         .replaceQueryParam("lat", latitude)
                                         .build())
                 .retrieve()
-                .bodyToMono(Met.class);
+                .bodyToMono(MetApiResponse.class);
     }
 }

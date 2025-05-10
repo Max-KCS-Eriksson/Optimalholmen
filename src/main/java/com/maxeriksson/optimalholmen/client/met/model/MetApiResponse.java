@@ -15,7 +15,7 @@ import javax.annotation.processing.Generated;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"type", "geometry", "properties"})
 @Generated("jsonschema2pojo")
-public class Met {
+public class MetApiResponse {
 
     @JsonProperty("type")
     private String type;

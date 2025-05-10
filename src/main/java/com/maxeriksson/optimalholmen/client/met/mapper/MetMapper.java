@@ -2,7 +2,7 @@ package com.maxeriksson.optimalholmen.client.met.mapper;
 
 import com.maxeriksson.optimalholmen.client.met.dto.MetDTO;
 import com.maxeriksson.optimalholmen.client.met.model.Details;
-import com.maxeriksson.optimalholmen.client.met.model.Met;
+import com.maxeriksson.optimalholmen.client.met.model.MetApiResponse;
 import com.maxeriksson.optimalholmen.client.met.model.Timeseries;
 
 import org.springframework.stereotype.Component;
@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 @Component
 public class MetMapper {
 
-    public MetDTO toDto(Met met, int hoursAhead) {
+    public MetDTO toDto(MetApiResponse metApiResponse, int hoursAhead) {
         int currentHourIndex = 2;
         Timeseries timeseries =
-                met.getProperties().getTimeseries().get(currentHourIndex + hoursAhead);
+                metApiResponse.getProperties().getTimeseries().get(currentHourIndex + hoursAhead);
         Details details = timeseries.getData().getInstant().getDetails();
 
         LocalDateTime dateTime =
