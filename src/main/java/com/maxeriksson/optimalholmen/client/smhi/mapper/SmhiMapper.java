@@ -2,7 +2,7 @@ package com.maxeriksson.optimalholmen.client.smhi.mapper;
 
 import com.maxeriksson.optimalholmen.client.smhi.dto.SmhiDTO;
 import com.maxeriksson.optimalholmen.client.smhi.model.Parameter;
-import com.maxeriksson.optimalholmen.client.smhi.model.Smhi;
+import com.maxeriksson.optimalholmen.client.smhi.model.SmhiApiResponse;
 import com.maxeriksson.optimalholmen.client.smhi.model.TimeSeries;
 
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class SmhiMapper {
 
-    public SmhiDTO toDto(Smhi smhi, int hoursAhead) {
+    public SmhiDTO toDto(SmhiApiResponse smhi, int hoursAhead) {
         int currentHourIndex = 2;
         TimeSeries timeSeries = smhi.getTimeSeries().get(currentHourIndex + hoursAhead);
         List<Parameter> parameters = timeSeries.getParameters();

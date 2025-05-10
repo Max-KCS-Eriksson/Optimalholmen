@@ -1,6 +1,6 @@
 package com.maxeriksson.optimalholmen.client.smhi;
 
-import com.maxeriksson.optimalholmen.client.smhi.model.Smhi;
+import com.maxeriksson.optimalholmen.client.smhi.model.SmhiApiResponse;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,7 +17,7 @@ public class SmhiClient {
         webClient = WebClient.create(baseUrl);
     }
 
-    public Mono<Smhi> getForecast(double longitude, double latitude) {
+    public Mono<SmhiApiResponse> getForecast(double longitude, double latitude) {
         return webClient
                 .get()
                 .uri(
@@ -27,6 +27,6 @@ public class SmhiClient {
                                                 "/geotype/point/lon/{longitude}/lat/{latitude}/data.json")
                                         .build(longitude, latitude))
                 .retrieve()
-                .bodyToMono(Smhi.class);
+                .bodyToMono(SmhiApiResponse.class);
     }
 }
