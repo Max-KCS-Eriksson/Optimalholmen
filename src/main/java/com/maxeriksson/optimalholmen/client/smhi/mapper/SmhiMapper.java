@@ -4,6 +4,7 @@ import com.maxeriksson.optimalholmen.client.smhi.dto.SmhiDTO;
 import com.maxeriksson.optimalholmen.client.smhi.model.Parameter;
 import com.maxeriksson.optimalholmen.client.smhi.model.SmhiApiResponse;
 import com.maxeriksson.optimalholmen.client.smhi.model.TimeSeries;
+import com.maxeriksson.optimalholmen.model.ForecastDTO;
 
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,14 @@ import java.util.List;
 
 @Component
 public class SmhiMapper {
+
+    private final String forecastSource = "SMHI";
+
+    public ForecastDTO toForecastDTO(SmhiApiResponse smhi, int hoursAhead) {
+        SmhiDTO smhiDTO = this.toDto(smhi, hoursAhead);
+        return new ForecastDTO(
+                forecastSource, smhiDTO.dateTime(), smhiDTO.temperature(), smhiDTO.windSpeed());
+    }
 
     public SmhiDTO toDto(SmhiApiResponse smhi, int hoursAhead) {
         int currentHourIndex = 2;
