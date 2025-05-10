@@ -16,7 +16,7 @@ import javax.annotation.processing.Generated;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"approvedTime", "referenceTime", "geometry", "timeSeries"})
 @Generated("jsonschema2pojo")
-public class Smhi {
+public class SmhiApiResponse {
 
     @JsonProperty("approvedTime")
     private String approvedTime;
