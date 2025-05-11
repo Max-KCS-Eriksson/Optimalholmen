@@ -27,6 +27,30 @@ public class ForecastService {
     @Autowired private SmhiClient smhiClient;
     @Autowired private SmhiMapper smhiMapper;
 
+    /**
+     * Assumes the preferred weather forecast, prioritizing warm weather, and secondly weaker wind.
+     */
+    public ForecastDTO assumeBestForecast(Coordinate coordinate, int hoursAhead) {
+        List<ForecastDTO> forecasts = getForecasts(coordinate, hoursAhead);
+        return assumeBestForecast(coordinate, hoursAhead, forecasts);
+    }
+
+    /** Use for testing only */
+    ForecastDTO assumeBestForecast(
+            Coordinate coordinate, int hoursAhead, List<ForecastDTO> forecasts) {
+        ForecastDTO bestForecast = forecasts.getFirst();
+        for (ForecastDTO forecast : forecasts.subList(1, forecasts.size())) {
+            if (forecast.temperature() > bestForecast.temperature()) {
+                bestForecast = forecast;
+            } else if (forecast.temperature() == bestForecast.temperature()
+                    && forecast.windSpeed() < bestForecast.windSpeed()) {
+                bestForecast = forecast;
+            }
+        }
+
+        return bestForecast;
+    }
+
     public List<ForecastDTO> getForecasts(Coordinate coordinate, int hoursAhead) {
         double longitude = coordinate.getLongitude();
         double latitude = coordinate.getLatitude();
