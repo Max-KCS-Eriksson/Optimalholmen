@@ -3,6 +3,9 @@ package com.maxeriksson.optimalholmen.service;
 import com.maxeriksson.optimalholmen.client.met.MetClient;
 import com.maxeriksson.optimalholmen.client.met.mapper.MetMapper;
 import com.maxeriksson.optimalholmen.client.met.model.MetApiResponse;
+import com.maxeriksson.optimalholmen.client.openmeteo.OpenMeteoClient;
+import com.maxeriksson.optimalholmen.client.openmeteo.mapper.OpenMeteoMapper;
+import com.maxeriksson.optimalholmen.client.openmeteo.model.OpenMeteoApiResponse;
 import com.maxeriksson.optimalholmen.client.smhi.SmhiClient;
 import com.maxeriksson.optimalholmen.client.smhi.mapper.SmhiMapper;
 import com.maxeriksson.optimalholmen.client.smhi.model.SmhiApiResponse;
@@ -26,6 +29,9 @@ public class ForecastService {
 
     @Autowired private SmhiClient smhiClient;
     @Autowired private SmhiMapper smhiMapper;
+
+    @Autowired private OpenMeteoClient openMeteoClient;
+    @Autowired private OpenMeteoMapper openMeteoMapper;
 
     /**
      * Assumes the preferred weather forecast, prioritizing warm weather, and secondly weaker wind.
@@ -59,6 +65,8 @@ public class ForecastService {
                 metClient.getForecast(longitude, latitude).toFuture();
         CompletableFuture<SmhiApiResponse> smhiRequest =
                 smhiClient.getForecast(longitude, latitude).toFuture();
+        CompletableFuture<OpenMeteoApiResponse> openMeteoRequest =
+                openMeteoClient.getForecast(longitude, latitude).toFuture();
 
         List<ForecastDTO> forecasts = new ArrayList<>();
 
@@ -68,6 +76,9 @@ public class ForecastService {
         Optional<SmhiApiResponse> smhiResponse = completeFuture(smhiRequest);
         if (smhiResponse.isPresent())
             forecasts.add(smhiMapper.toForecastDTO(smhiResponse.get(), hoursAhead));
+        Optional<OpenMeteoApiResponse> openMeteoResponse = completeFuture(openMeteoRequest);
+        if (openMeteoResponse.isPresent())
+            forecasts.add(openMeteoMapper.toForecastDTO(openMeteoResponse.get(), hoursAhead));
 
         return forecasts;
     }
