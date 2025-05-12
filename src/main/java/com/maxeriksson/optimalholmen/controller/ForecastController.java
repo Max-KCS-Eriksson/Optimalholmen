@@ -26,7 +26,7 @@ public class ForecastController {
 
         ForecastDTO forecast = service.assumeBestForecast(coordinate, hoursAhead);
         model.addAttribute("forecast_source", forecast.forecastSource());
-        model.addAttribute("date_time", forecast.dateTime());
+        model.addAttribute("date_time", forecast.dateTime().toString().replace('T', ' '));
         model.addAttribute("temperature", forecast.temperature());
         model.addAttribute("wind_speed", forecast.windSpeed());
 
