@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title th:text="'Forecast | ' + ${location}"></title>
+    </head>
+
+    <body>
+        <p>
+            Optimal weather forecast for
+            <span th:text="${location} + ' ' + ${date_time}"></span>
+            (source: <span th:text="${forecast_source}"></span>)
+        </p>
+        <p>Temperature: <span th:text="${temperature}"></span> °C</p>
+        <p>Wind Speed: <span th:text="${wind_speed}"></span> m/s</p>
+    </body>
+</html>
